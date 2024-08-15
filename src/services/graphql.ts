@@ -37,3 +37,24 @@ export const START_GAME = gql`
         startGame(roomId:$RoomId)
     }
 `;
+
+export const GET_ROOMS = gql`
+    query getRooms {
+        getRooms {
+            id
+            name
+            owner {
+                username
+            }
+        }
+    }
+`;
+
+export const CREATE_PLAYER = gql`
+    mutation createPlayer($username: String!, $password:String!) {
+        createPlayer(username: $username, password: $password ){
+                id
+                username
+        }
+    }
+`;

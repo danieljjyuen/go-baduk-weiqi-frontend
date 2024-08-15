@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addMove, setGameState } from "../store/gameSlice;
+import { addMove, setGameState } from "../store/gameSlice";
 import { websocketService } from "../services/websocket";
 
 const GameBoard: React.FC = () => {

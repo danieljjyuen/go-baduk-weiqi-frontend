@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addChatMessage } from "../redux/gameSlice";
+import { addChatMessage } from "../store/gameSlice";
 import { websocketService } from "../services/websocket";
 
 const Chat: React.FC = () => {

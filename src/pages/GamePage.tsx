@@ -36,6 +36,6 @@ const GamePage: React.FC = () => {
             <Chat />
         </div>
     )
-};
+}; 
 
-export default GamePage
+export default GamePage;
