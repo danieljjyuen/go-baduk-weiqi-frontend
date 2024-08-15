@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client";
 import { LOGIN } from "../services/graphql";
 import { useDispatch } from "react-redux";
 import { setPlayerDetails, setOnlineStatus } from "../store/playerSlice";
-
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState("");
@@ -11,6 +11,7 @@ const Login: React.FC = () => {
     const [login] = useMutation(LOGIN);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         try {
@@ -22,6 +23,8 @@ const Login: React.FC = () => {
             dispatch(setOnlineStatus(true));
             
             console.log("logging in", data);
+            
+            navigate("/");
         } catch (error) {
             console.error("login error: ", error);
         }

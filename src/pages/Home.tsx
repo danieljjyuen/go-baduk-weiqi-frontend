@@ -1,7 +1,6 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GET_ROOMS } from "../services/graphql";
-import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
     const { loading, error, data } = useQuery(GET_ROOMS);
@@ -13,8 +12,6 @@ const Home: React.FC = () => {
 
     return (
         <div>
-            <Link to="/register">Register</Link>
-            <Link to="/login">Log In</Link>
             <h1>Rooms</h1>
             <ul>
                 {rooms && rooms.length > 0 ? (
