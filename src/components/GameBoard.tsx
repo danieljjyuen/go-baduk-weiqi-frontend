@@ -5,7 +5,7 @@ import { websocketService } from "../services/websocket";
 
 const GameBoard: React.FC = () => {
     const dispatch = useDispatch();
-    const board = useSelector((state: any) => state.game.boardState);
+    const board = useSelector((state: any) => state.game.boardState)||[];
     const isBlackTurn = useSelector((state:any) => state.game.isBlackTurn);
     const gameId = useSelector((state: any) => state.game.id)
     
@@ -23,8 +23,11 @@ const GameBoard: React.FC = () => {
             {board.map((row, x) => (
                 <div key={x} className="boardRow">
                     {row.map((column, y) => {
-                        <div key={y} className="boardColumn" onClick={() => handleMoveClick(x,y)}>
-                            board[x][y]
+                        <div 
+                            key={y} 
+                            className="boardColumn" 
+                            onClick={() => handleMoveClick(x,y)}>
+                            {column}
                         </div>
                     })};
                 </div>

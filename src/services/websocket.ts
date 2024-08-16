@@ -36,6 +36,15 @@ class WebSocketService {
             };
         }
     }
+
+    close() {
+        if (this.socket) {
+            this.socket.close(); // Close the WebSocket connection
+            this.socket = null;  // Clean up reference after closing
+        } else {
+            console.error("WebSocket connection is not open");
+        }
+    }
 }
 
 export const websocketService = new WebSocketService();

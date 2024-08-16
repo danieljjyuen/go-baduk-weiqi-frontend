@@ -16,9 +16,10 @@ const Login: React.FC = () => {
     const handleLogin = async () => {
         try {
             const { data } = await login({ variables: {username, password }});
+            
             dispatch(setPlayerDetails({
-                playerId: data.playerId,
-                username:data.username,
+                playerId: data.login.id,
+                username:data.login.username,
             }));
             dispatch(setOnlineStatus(true));
             

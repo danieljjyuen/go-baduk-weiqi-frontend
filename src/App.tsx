@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import GamePage from "./pages/GamePage";
 import Login from "./components/Login";
 import RegisterPlayer from "./components/RegisterPlayer";
-
 import NavBar from "./components/NavBar";
 
 const App: React.FC = () => {

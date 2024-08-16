@@ -16,7 +16,8 @@ const GamePage: React.FC = () => {
 
         //subscribe for updates
         websocketService.subscribe(`/topic/room/${roomId}/game/${gameId}`, (gameState: any) => {
-            dispatch(setGameState(gameState));
+            console.log(gameState);
+            //dispatch(setGameState(gameState));
         });
 
         websocketService.subscribe(`/topic/room/${roomId}/chat`, (chatMessage: any) => {
@@ -24,7 +25,7 @@ const GamePage: React.FC = () => {
         });
 
         return () => {
-            websocketService.connect().close();
+            websocketService.close();
         };
     }, [dispatch])
 

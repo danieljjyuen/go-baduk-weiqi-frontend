@@ -34,9 +34,20 @@ export const CREATE_ROOM = gql`
 
 export const START_GAME = gql`
     mutation StartGame($roomId: ID!) {
-        startGame(roomId:$RoomId)
+        startGame(roomId:$roomId) {
+            id
+        }
     }
 `;
+
+export const JOIN_ROOM = gql`
+    mutation JoinRoom($roomId: ID!, $playerId: ID!) {
+        joinRoom(roomId: $roomId, playerId: $playerId) {
+            id
+            name
+        }
+    }
+`
 
 export const GET_ROOMS = gql`
     query getRooms {
