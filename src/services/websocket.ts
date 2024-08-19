@@ -1,7 +1,9 @@
 class WebSocketService {
+
     private socket: WebSocket | null = null;
 
     connect() {
+
         this.socket = new WebSocket("ws://localhost:8080/ws");
 
         this.socket.onopen = () => {

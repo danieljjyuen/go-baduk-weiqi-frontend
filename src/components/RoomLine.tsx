@@ -28,9 +28,9 @@ const RoomLine: React.FC<RoomLineProps> = ({roomId, roomOwnerUsername, roomName}
             const startGameResponse = await startGame({ variables: {roomId} });
             console.log(startGameResponse);
             dispatch(updateRoom(roomId));
-
+//${startGameResponse.data.startGame.id}
             ///room/:roomId/game/:gameId"
-            navigate(`/room/${roomId}/game/${startGameResponse.data.startGame.id}`);
+            navigate(`/room/${roomId}`);
         } catch (error:any) {
             if (error.networkError) {
                 console.error("Network error:", error.networkError);

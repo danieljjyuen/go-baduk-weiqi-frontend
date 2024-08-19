@@ -29,7 +29,7 @@ const Chat: React.FC = () => {
     return (
         <div>
             <div>
-                {chatMessages.map((msg, index) => (
+                {chatMessages.map((msg:any, index:any) => (
                     <div>
                         <strong>{playerUsername}:</strong> {msg.message}
                     </div>

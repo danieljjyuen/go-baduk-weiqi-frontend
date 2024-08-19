@@ -13,7 +13,7 @@ const App: React.FC = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home/>} />
-        <Route path="/room/:roomId/game/:gameId" element={<GamePage />} />
+        <Route path="/room/:roomId" element={<GamePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterPlayer />} />
       </Routes>
