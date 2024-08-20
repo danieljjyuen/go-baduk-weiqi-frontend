@@ -35,10 +35,14 @@ const CreateRoom: React.FC<CreateRoomProps> = ({ ownerId }) => {
     const handleCreateRoom = async () => {
         try {
             const { data } = await createRoom({ variables: { name: roomName, ownerId } });
-            dispatch(updateRoom(data.createRoom.id));
-            setRoomId(data.createRoom.id);
-            navigate(`/room/${data.createRoom.id}`);
-            console.log("room created: ", data.createRoom);
+            if(data) {
+                dispatch(updateRoom(data.createRoom.id));
+                setRoomId(data.createRoom.id);
+                navigate(`/room/${data.createRoom.id}`);
+                
+                console.log("room created: ", data.createRoom.id);
+            }
+
         } catch (error) {
             console.error("error creating room: ", error);
         }

@@ -8,30 +8,42 @@ const Chat: React.FC = () => {
     const chatMessages = useSelector((state: any) => state.game.chatMessages);
     const [message, setMessage] = useState("");
     
-    const roomId = useSelector((state: any) => state.player.roomId);
+    const roomId = useSelector((state: any) => state.player.currentRoomId);
     const playerId = useSelector((state: any) => state.player.playerId);
     const playerUsername = useSelector((state: any) => state.player.username);
+    console.log(roomId);
 
     const handleSendMessage = () => {
         const chatMessage = {
             roomId,
             playerId,
+            playerUsername,
             message,
             timestamp: new Date().toISOString(),
         };
 
-        dispatch(addChatMessage(chatMessage));
+        console.log(chatMessage);
+        //dispatch(addChatMessage(chatMessage));
 
-        websocketService.sendMessage(`/app/chat`, chatMessage);
+        websocketService.sendMessage(`/app/room/${roomId}/chat`, chatMessage);
         setMessage("");
     };
+
+    const processedMessage = Array.from(
+        new Map(
+            chatMessages.map((msg:any) => [
+                `${msg.message}-${msg.timestamp}`, // Unique key based on message content and timestamp
+                msg,
+            ])
+        ).values()
+    );
 
     return (
         <div>
             <div>
-                {chatMessages.map((msg:any, index:any) => (
-                    <div>
-                        <strong>{playerUsername}:</strong> {msg.message}
+                {processedMessage.map((msg:any, index:any) => (
+                    <div key={index}>
+                        <strong>{msg.playerUsername}:</strong> {msg.message}
                     </div>
                 ))}
             </div>

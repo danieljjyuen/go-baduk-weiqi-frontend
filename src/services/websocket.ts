@@ -1,51 +1,46 @@
-class WebSocketService {
+import { Client, StompSubscription } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 
-    private socket: WebSocket | null = null;
+class WebSocketService {
+    client: Client;
+
+    constructor() {
+        this.client = new Client({
+            webSocketFactory: () => new SockJS("http://localhost:8080/ws"),
+            connectHeaders: {},
+            debug: (str) => console.log(str),
+            onConnect: (frame) => {
+                console.log("Connected: " + frame);
+            },
+            onDisconnect: (frame) => {
+                console.log("Disconnected: " + frame);
+            },
+            onStompError: (frame) => {
+                console.error("STOMP error: " + frame);
+            }
+        });
+    }
 
     connect() {
-
-        this.socket = new WebSocket("ws://localhost:8080/ws");
-
-        this.socket.onopen = () => {
-            console.log("Connected to WebSocket server");
-        };
-
-        this.socket.onclose = () => {
-            console.log("Disconnected from WebSocket server");
-        };
-
-        this.socket.onerror = (error) => {
-            console.error("WebSocket error:", error);
-        };
+        this.client.activate();
     }
 
     sendMessage(destination: string, payload: any) {
-        if(this.socket) {
-            const message = JSON.stringify({destination, payload});
-            this.socket.send(message);
-        } else {
-            console.error("WebSocket connection is not open");
-        }
+        this.client.publish({destination, body: JSON.stringify(payload)});
     }
 
-    subscribe(destination: string, callback: (data: any) => void) {
-        if (this.socket) {
-            this.socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                if(data.destination === destination) {
-                    callback(data.payload);
-                }
-            };
-        }
+    subscribe(destination: string, callback: (data: any) => void): StompSubscription {
+        return this.client.subscribe(destination, (message) => {
+            callback(JSON.parse(message.body));
+        });
     }
 
+    isConnected(): boolean {
+        return this.client.connected;
+    }
+    
     close() {
-        if (this.socket) {
-            this.socket.close(); // Close the WebSocket connection
-            this.socket = null;  // Clean up reference after closing
-        } else {
-            console.error("WebSocket connection is not open");
-        }
+        this.client.deactivate();
     }
 }
 

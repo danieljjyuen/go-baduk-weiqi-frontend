@@ -39,14 +39,6 @@ export const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-export const GETGAMESTATEWITHROOMID = gql`
-    query GETGAMESTATEWITHROOMID($roomId:String!) {
-        getGameStateWithRoomId(roomId:$roomId) {
-            id
-        }
-    }
-`;
-
 // export const GAME_START_SUBSCRIPTION = gql`
 //   subscription OnGameStart($roomId: ID!) {
 //     onGameStart(roomId: $roomId) {
@@ -108,6 +100,14 @@ export const GET_ROOMS = gql`
             owner {
                 username
             }
+        }
+    }
+`;
+
+export const GETGAMESTATEWITHROOMID = gql`
+    query GETGAMESTATEWITHROOMID($roomId:ID!) {
+        getGameStateWithRoomId(roomId: $roomId) {
+            id
         }
     }
 `;

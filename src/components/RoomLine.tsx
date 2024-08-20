@@ -23,11 +23,12 @@ const RoomLine: React.FC<RoomLineProps> = ({roomId, roomOwnerUsername, roomName}
     const handleJoinRoom = async () => {
         try {
             console.log("join" , roomId , playerId);
+            dispatch(updateRoom(roomId));
             const joinRoomResponse = await joinRoom({ variables: {roomId, playerId}});
             console.log(joinRoomResponse);
             const startGameResponse = await startGame({ variables: {roomId} });
             console.log(startGameResponse);
-            dispatch(updateRoom(roomId));
+            
 //${startGameResponse.data.startGame.id}
             ///room/:roomId/game/:gameId"
             navigate(`/room/${roomId}`);

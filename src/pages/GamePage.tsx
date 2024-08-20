@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Chat from "../components/Chat";
 import GameBoard from "../components/GameBoard"
@@ -12,15 +12,25 @@ const GamePage: React.FC = () => {
     const dispatch = useDispatch()
     const { roomId } = useParams<{ roomId: string }>();
     //const { gameId } = useParams<{ gameId: string }>();
-    const { loading, error, data } = useQuery(GETGAMESTATEWITHROOMID, {variables: {roomId}});
+    console.log(roomId);
+    const { loading, error, data, refetch } = useQuery(GETGAMESTATEWITHROOMID, {
+        variables: {roomId},
+        skip: !roomId,
+        notifyOnNetworkStatusChange: true
+    });
 
-
+    const isSubscribed = useRef(false);
     
     useEffect(() => {
-        if (loading) return;
-        if (error) {
-            console.error("Error fetching game state:", error);
-            return;
+        console.log(roomId);
+        console.log("load", loading);
+        console.log("data: ", data);
+        if (loading || error) {
+                const interval = setInterval(() => {
+                    refetch();
+                },  5000);
+                
+                return () => clearInterval(interval);
         }
         
 
@@ -33,25 +43,60 @@ const GamePage: React.FC = () => {
             console.error("No game ID found");
             return;
         }
-        websocketService.connect();
 
-        //subscribe for updates
-        websocketService.subscribe(`/topic/room/${roomId}/game/${gameId}`, (gameState: any) => {
-            console.log(gameState);
-            //dispatch(setGameState(gameState));
-        });
+        if (!isSubscribed.current) {
+            const onConnected = () => {
+                // Subscribe for updates after successful connection
+                websocketService.subscribe(
+                    `/topic/room/${roomId}/game/${gameId}`,
+                    (gameState: any) => {
+                        console.log(gameState);
+                        // dispatch(setGameState(gameState));
+                    }
+                );
 
-        websocketService.subscribe(`/topic/room/${roomId}/chat`, (chatMessage: any) => {
-            dispatch(addChatMessage(chatMessage));
-        });
+                websocketService.subscribe(
+                    `/topic/room/${roomId}/chat`,
+                    (chatMessage: any) => {
+                        dispatch(addChatMessage(chatMessage));
+                    }
+                );
+
+                isSubscribed.current = true; // Set the flag to true after subscribing
+            };
+
+        // const onConnected = () => {
+        //     // Subscribe for updates after successful connection
+        //     websocketService.subscribe(`/topic/room/${roomId}/game/${gameId}`, (gameState: any) => {
+        //         console.log(gameState);
+        //         // dispatch(setGameState(gameState));
+        //     });
+    
+        //     websocketService.subscribe(`/topic/room/${roomId}/chat`, (chatMessage: any) => {
+        //         dispatch(addChatMessage(chatMessage));
+        //     });
+        // };
+    
+        //websocketService.connect();
+
+        if (!websocketService.isConnected()) {
+            websocketService.connect();
+        }
+        websocketService.client.onConnect = onConnected
+    }
 
         return () => {
             websocketService.close();
         };
-    }, [dispatch, loading, error, data, roomId])
 
+    }, [dispatch, loading, error, data, roomId]);
+
+    
+    if (loading || error) return <div>waiting for player to join</div>;
+    
     return (
         <div>
+            worked
             <GameBoard />
             <Chat />
         </div>
