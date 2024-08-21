@@ -20,7 +20,7 @@ interface GameState {
 }
 
 const initialState: GameState = {
-    board: Array(19).fill(Array(19).fill(0)),
+    board: Array.from(Array(19), () => new Array(19).fill(0)),
     chatMessages: [],
     isBlackTurn: true,
 };

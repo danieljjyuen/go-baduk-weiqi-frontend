@@ -96,7 +96,6 @@ const GamePage: React.FC = () => {
     
     return (
         <div>
-            worked
             <GameBoard />
             <Chat />
         </div>
