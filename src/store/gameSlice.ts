@@ -37,6 +37,9 @@ const gameSlice = createSlice({
             state.board[action.payload.x][action.payload.y] = color;
             state.isBlackTurn = !state.isBlackTurn;
         },
+        removeStone(state, action: PayloadAction<Move>) {
+            state.board[action.payload.x][action.payload.y] = 0;
+        },
         addChatMessage(state, action: PayloadAction<ChatMessage>) {
             state.chatMessages.push(action.payload);
         },
@@ -47,5 +50,5 @@ const gameSlice = createSlice({
     }
 });
 
-export const { setBoard, addMove, addChatMessage, setGameState } = gameSlice.actions;
+export const { setBoard, addMove, addChatMessage, setGameState, removeStone } = gameSlice.actions;
 export default gameSlice.reducer;

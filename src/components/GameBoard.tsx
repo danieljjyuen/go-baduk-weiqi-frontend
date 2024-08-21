@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addMove, setGameState } from "../store/gameSlice";
+import { addMove, removeStone, setGameState } from "../store/gameSlice";
 import { websocketService } from "../services/websocket";
 
 const GameBoard: React.FC = () => {
@@ -72,6 +72,20 @@ const GameBoard: React.FC = () => {
         });
     };
 
+    const handleRemoveClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+        event.preventDefault();
+        const canvas = canvasRef.current;
+        const rect = canvas?.getBoundingClientRect();
+
+        const clientX = event.clientX - rect?.left!;
+        const clientY = event.clientY - rect?.top!;
+
+        const x = Math.floor((clientX - padding + cellSize / 2) / cellSize);
+        const y = Math.floor((clientY - padding + cellSize / 2) / cellSize);
+        
+        const move = { gameId, x, y };
+        dispatch(removeStone(move));
+    }
 
     const handleMoveClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
         const color = isBlackTurn ? 1 : 2; //1 for black, 2 for white
@@ -99,6 +113,7 @@ const GameBoard: React.FC = () => {
             width={cellSize * 18 + padding *2}
             height={cellSize * 18 + padding *2}
             onClick={handleMoveClick}
+            onContextMenu={handleRemoveClick}
         />
     )
 };
