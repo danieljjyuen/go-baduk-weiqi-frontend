@@ -21,7 +21,7 @@ const GameBoard: React.FC = () => {
 
         if(ctx) {
             drawBoard(ctx);
-            //drawStones(ctx);
+            drawStones(ctx);
         }
     }, [board]);
 
@@ -57,12 +57,35 @@ const GameBoard: React.FC = () => {
                 ctx.fill();
             });
         });
-        
     }
 
+    const drawStones = (ctx: CanvasRenderingContext2D) => {
+        board.forEach((row: number[], x: number ) => {
+            row.forEach((column: number, y: number) => {
+                if(column === 1 || column === 2) {
+                    ctx.fillStyle = column === 1 ? "#000" : "#FFF";
+                    ctx.beginPath();
+                    ctx.arc(padding + x * cellSize, padding + y * cellSize, cellSize/2 -2, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+            });
+        });
+    };
 
-    const handleMoveClick = (x: number, y: number) => {
+
+    const handleMoveClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
         const color = isBlackTurn ? 1 : 2; //1 for black, 2 for white
+        
+        const canvas = canvasRef.current;
+        const rect = canvas?.getBoundingClientRect();
+
+        const clientX = event.clientX - rect?.left!;
+        const clientY = event.clientY - rect?.top!;
+
+        const x = Math.floor((clientX - padding + cellSize / 2) / cellSize);
+        const y = Math.floor((clientY - padding + cellSize / 2) / cellSize);
+        
+
         const move = { gameId, x, y };
         dispatch(addMove(move));
 
@@ -75,7 +98,7 @@ const GameBoard: React.FC = () => {
             ref={canvasRef}
             width={cellSize * 18 + padding *2}
             height={cellSize * 18 + padding *2}
-
+            onClick={handleMoveClick}
         />
     )
 };
