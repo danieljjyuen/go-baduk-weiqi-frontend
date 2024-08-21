@@ -26,7 +26,10 @@ const GameBoard: React.FC = () => {
     }, [board]);
 
     const drawBoard = (ctx: CanvasRenderingContext2D) => {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        //fill the background of the board tan
+        ctx.fillStyle = "#d2b48c";
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        
         ctx.strokeStyle = "#000";
         ctx.lineWidth = 1;
 
@@ -42,7 +45,21 @@ const GameBoard: React.FC = () => {
             ctx.lineTo(padding + 18 * cellSize, padding + i * cellSize);
             ctx.stroke();
         }
+
+        //adds in the 9 star points on the board
+        const starPoints = [3, 9 , 15] ;
+        
+        ctx.fillStyle="#000";
+        starPoints.forEach( x => {
+            starPoints.forEach ( y => {
+                ctx.beginPath();
+                ctx.arc(padding + x * cellSize, padding + y * cellSize, 4, 0, 2*Math.PI);
+                ctx.fill();
+            });
+        });
+        
     }
+
 
     const handleMoveClick = (x: number, y: number) => {
         const color = isBlackTurn ? 1 : 2; //1 for black, 2 for white
