@@ -22,6 +22,7 @@ class WebSocketService {
     }
 
     connect() {
+        console.log("connecting ");
         this.client.activate();
     }
 

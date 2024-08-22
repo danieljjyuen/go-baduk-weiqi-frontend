@@ -3,13 +3,16 @@ import { useParams } from "react-router-dom";
 import Chat from "../components/Chat";
 import GameBoard from "../components/GameBoard"
 import { websocketService } from "../services/websocket";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setGameState, addChatMessage } from "../store/gameSlice";
 import { useQuery } from "@apollo/client";
 import { GETGAMESTATEWITHROOMID } from "../services/graphql";
+import { addMove, setGameId } from "../store/gameSlice";
 
 const GamePage: React.FC = () => {
     const dispatch = useDispatch()
+    //
+    const playerId = useSelector((state: any) => state.player.playerId);
     const { roomId } = useParams<{ roomId: string }>();
     //const { gameId } = useParams<{ gameId: string }>();
     console.log(roomId);
@@ -20,6 +23,7 @@ const GamePage: React.FC = () => {
     });
 
     const isSubscribed = useRef(false);
+    const isConnected = useRef(false);
     
     useEffect(() => {
         console.log(roomId);
@@ -37,20 +41,30 @@ const GamePage: React.FC = () => {
         const gameId = data?.getGameStateWithRoomId?.id;
 
         if(gameId) {
+            dispatch(setGameId(gameId));
             console.log("game started id: ", gameId);
         }
         if (!gameId) {
             console.error("No game ID found");
             return;
         }
+        if (!isConnected.current) {
+            websocketService.connect();
+            isConnected.current = true;
+        }
 
-        if (!isSubscribed.current) {
+        if (!isSubscribed.current && isConnected.current) {
+            console.log("subscribing");
             const onConnected = () => {
                 // Subscribe for updates after successful connection
                 websocketService.subscribe(
                     `/topic/room/${roomId}/game/${gameId}`,
-                    (gameState: any) => {
-                        console.log(gameState);
+                    (move: any) => {
+                        if(move){
+                            console.log("inside subscribe move  ", move);
+                            dispatch(addMove(move));
+                        }
+                        
                         // dispatch(setGameState(gameState));
                     }
                 );
@@ -58,35 +72,21 @@ const GamePage: React.FC = () => {
                 websocketService.subscribe(
                     `/topic/room/${roomId}/chat`,
                     (chatMessage: any) => {
+                        console.log("message receive and sending", playerId);
                         dispatch(addChatMessage(chatMessage));
                     }
                 );
-
-                isSubscribed.current = true; // Set the flag to true after subscribing
+                // Set the flag to true after subscribing
+                isSubscribed.current = true; 
             };
 
-        // const onConnected = () => {
-        //     // Subscribe for updates after successful connection
-        //     websocketService.subscribe(`/topic/room/${roomId}/game/${gameId}`, (gameState: any) => {
-        //         console.log(gameState);
-        //         // dispatch(setGameState(gameState));
-        //     });
-    
-        //     websocketService.subscribe(`/topic/room/${roomId}/chat`, (chatMessage: any) => {
-        //         dispatch(addChatMessage(chatMessage));
-        //     });
-        // };
-    
-        //websocketService.connect();
-
-        if (!websocketService.isConnected()) {
-            websocketService.connect();
-        }
         websocketService.client.onConnect = onConnected
     }
 
         return () => {
             websocketService.close();
+            isSubscribed.current = false;
+            isConnected.current = false;
         };
 
     }, [dispatch, loading, error, data, roomId]);

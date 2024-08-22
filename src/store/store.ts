@@ -6,7 +6,7 @@ const store = configureStore({
     reducer: {
         game: gameReducer,
         player: playerReducer,
-    }
+    }    
 });
 
 export default store;

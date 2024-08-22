@@ -51,3 +51,4 @@ export const {
 } = playerSlice.actions;
 
 export default playerSlice.reducer;
+export type {PlayerState};

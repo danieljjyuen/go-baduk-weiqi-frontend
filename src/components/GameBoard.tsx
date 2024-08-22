@@ -1,16 +1,18 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addMove, removeStone, setGameState } from "../store/gameSlice";
+import { addMove, setGameState } from "../store/gameSlice";
 import { websocketService } from "../services/websocket";
 
 const GameBoard: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const dispatch = useDispatch();
+    const playerId = useSelector((state:any) => state.player.playerId);
     const board = useSelector((state: any) => state.game.board)||[];
     const isBlackTurn = useSelector((state:any) => state.game.isBlackTurn);
-    const gameId = useSelector((state: any) => state.game.id)
+    const gameId = useSelector((state: any) => state.game.gameId)
+    const roomId = useSelector((state:any) => state.player.currentRoomId);
     console.log("board : ", board);
-
+    console.log("player id and game id room id", playerId, "   ", gameId, "  ",roomId);
 
     const cellSize = 25;
     const padding = 20;
@@ -83,8 +85,10 @@ const GameBoard: React.FC = () => {
         const x = Math.floor((clientX - padding + cellSize / 2) / cellSize);
         const y = Math.floor((clientY - padding + cellSize / 2) / cellSize);
         
-        const move = { gameId, x, y };
-        dispatch(removeStone(move));
+        const move = { gameId, x, y, color: 0, playerId };
+        //send to websocket
+       
+        websocketService.sendMessage(`/app/room/${roomId}/game/${gameId}`, move);
     }
 
     const handleMoveClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
@@ -100,11 +104,11 @@ const GameBoard: React.FC = () => {
         const y = Math.floor((clientY - padding + cellSize / 2) / cellSize);
         
 
-        const move = { gameId, x, y };
-        dispatch(addMove(move));
+        const move = { gameId, x, y, color , playerId};
+        //dispatch(addMove(move));
 
         //send to websocket
-        websocketService.sendMessage(`/app/move/${gameId}`, move);
+        websocketService.sendMessage(`/app/room/${roomId}/game/${gameId}`, move);
     };
 
     return (

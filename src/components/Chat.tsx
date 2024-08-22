@@ -4,10 +4,10 @@ import { addChatMessage } from "../store/gameSlice";
 import { websocketService } from "../services/websocket";
 
 const Chat: React.FC = () => {
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const chatMessages = useSelector((state: any) => state.game.chatMessages);
     const [message, setMessage] = useState("");
-    
+    console.log(chatMessages);
     const roomId = useSelector((state: any) => state.player.currentRoomId);
     const playerId = useSelector((state: any) => state.player.playerId);
     const playerUsername = useSelector((state: any) => state.player.username);
@@ -26,24 +26,25 @@ const Chat: React.FC = () => {
         //dispatch(addChatMessage(chatMessage));
 
         websocketService.sendMessage(`/app/room/${roomId}/chat`, chatMessage);
+        console.log(playerUsername , " sends message");
         setMessage("");
     };
 
-    const processedMessage = Array.from(
-        new Map(
-            chatMessages.map((msg:any) => [
-                `${msg.message}-${msg.timestamp}`, // Unique key based on message content and timestamp
-                msg,
-            ])
-        ).values()
-    );
+    // const processedMessage = Array.from(
+    //     new Map(
+    //         chatMessages.map((msg:any) => [
+    //             `${msg.message}-${msg.timestamp}`, // Unique key based on message content and timestamp
+    //             msg,
+    //         ])
+    //     ).values()
+    // );
 
     return (
         <div>
             <div>
-                {processedMessage.map((msg:any, index:any) => (
+                {chatMessages.map((msg:any, index:any) => (
                     <div key={index}>
-                        <strong>{msg.playerUsername}:</strong> {msg.message}
+                        <strong>{msg.playerUsername} :</strong> {msg.message}
                     </div>
                 ))}
             </div>
