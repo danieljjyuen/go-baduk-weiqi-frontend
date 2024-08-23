@@ -3,6 +3,8 @@ import SockJS from 'sockjs-client';
 
 class WebSocketService {
     client: Client;
+    //store all subscriptions
+    subscriptions: StompSubscription[] = [];
 
     constructor() {
         this.client = new Client({
@@ -31,9 +33,20 @@ class WebSocketService {
     }
 
     subscribe(destination: string, callback: (data: any) => void): StompSubscription {
-        return this.client.subscribe(destination, (message) => {
+        const subscription =  this.client.subscribe(destination, (message) => {
             callback(JSON.parse(message.body));
         });
+
+        //store the subsccriptions in the subscription array
+        this.subscriptions.push(subscription);
+        return subscription;
+    }
+    
+    unsubscribeAll(): void {
+        this.subscriptions.forEach((subscription) => 
+            subscription.unsubscribe());
+        //reset the array
+        this.subscriptions = [];
     }
 
     isConnected(): boolean {
@@ -41,6 +54,8 @@ class WebSocketService {
     }
     
     close() {
+        //unsubscribe from all subscriptions before closing websocket connection
+        this.unsubscribeAll();
         this.client.deactivate();
     }
 }

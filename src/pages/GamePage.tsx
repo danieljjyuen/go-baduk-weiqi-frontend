@@ -85,8 +85,8 @@ const GamePage: React.FC = () => {
 
         return () => {
             websocketService.close();
-            isSubscribed.current = false;
             isConnected.current = false;
+            isSubscribed.current = false;
         };
 
     }, [dispatch, loading, error, data, roomId]);
