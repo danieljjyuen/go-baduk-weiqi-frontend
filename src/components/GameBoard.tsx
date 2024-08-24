@@ -112,13 +112,15 @@ const GameBoard: React.FC = () => {
     };
 
     return (
-        <canvas
-            ref={canvasRef}
-            width={cellSize * 18 + padding *2}
-            height={cellSize * 18 + padding *2}
-            onClick={handleMoveClick}
-            onContextMenu={handleRemoveClick}
-        />
+        <div className="m-4 p4">
+            <canvas
+                ref={canvasRef}
+                width={cellSize * 18 + padding *2}
+                height={cellSize * 18 + padding *2}
+                onClick={handleMoveClick}
+                onContextMenu={handleRemoveClick}
+            />
+        </div>
     )
 };
 

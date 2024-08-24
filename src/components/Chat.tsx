@@ -40,22 +40,22 @@ const Chat: React.FC = () => {
     // );
 
     return (
-        <div>
-            <div>
+        <div className="border bg-grey p-4 m-1 mr-5">
+            <div className="h-[400px] w-[300px] overflow-y-auto">
                 {chatMessages.map((msg:any, index:any) => (
                     <div key={index}>
                         <strong>{msg.playerUsername} :</strong> {msg.message}
                     </div>
                 ))}
             </div>
-            <div>
-                <input 
-                    type="text"
+            <div className="border overflow-y-auto flex justify-between w-[300px]">
+                <textarea
+                    className="w-full p-2 border rounded"
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
                     placeholder="Type your message..."
                 />
-                <button onClick={handleSendMessage}>Send</button>
+                <button className="ml-2 p-2 border rounded" onClick={handleSendMessage}>Send</button>
             </div>
         </div>
     );

@@ -8,6 +8,7 @@ import { setGameState, addChatMessage } from "../store/gameSlice";
 import { useQuery } from "@apollo/client";
 import { GETGAMESTATEWITHROOMID } from "../services/graphql";
 import { addMove, setGameId } from "../store/gameSlice";
+import TurnPanel from "../components/TurnPanel";
 
 const GamePage: React.FC = () => {
     const dispatch = useDispatch()
@@ -95,9 +96,16 @@ const GamePage: React.FC = () => {
     if (loading || error) return <div>waiting for player to join</div>;
     
     return (
-        <div>
-            <GameBoard />
-            <Chat />
+        <div className="flex p-1 m-1">
+            <div className="flex-1 flex items-center justify-center">
+                <GameBoard />
+            </div>
+            
+            <div className="flex flex-col  items-center justify-center ml-4 mr-4">
+                <TurnPanel ownerUsername="P1" challengerUsername="P2"/>
+                <Chat />
+            </div>
+            
         </div>
     )
 }; 
