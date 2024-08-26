@@ -102,7 +102,10 @@ const GamePage: React.FC = () => {
             </div>
             
             <div className="flex flex-col  items-center justify-center ml-4 mr-4">
-                <TurnPanel ownerUsername="P1" challengerUsername="P2"/>
+                <TurnPanel 
+                    ownerUsername={data?.getGameStateWithRoomId?.blackPlayer.username} 
+                    challengerUsername={data?.getGameStateWithRoomId?.whitePlayer.username}
+                />
                 <Chat />
             </div>
             

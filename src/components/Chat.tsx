@@ -40,15 +40,15 @@ const Chat: React.FC = () => {
     // );
 
     return (
-        <div className="border bg-grey p-4 m-1 mr-5">
-            <div className="h-[400px] w-[300px] overflow-y-auto">
+        <div className="border bg-gray-200 p-2 m-1 mr-5">
+            <div className="h-[350px] w-[300px] overflow-y-auto bg-white m-2">
                 {chatMessages.map((msg:any, index:any) => (
                     <div key={index}>
                         <strong>{msg.playerUsername} :</strong> {msg.message}
                     </div>
                 ))}
             </div>
-            <div className="border overflow-y-auto flex justify-between w-[300px]">
+            <div className="border overflow-y-auto flex justify-between w-[300px] p-2">
                 <textarea
                     className="w-full p-2 border rounded"
                     value={message}
