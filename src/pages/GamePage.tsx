@@ -64,8 +64,13 @@ const GamePage: React.FC = () => {
                         if(move){
                             console.log("inside subscribe move  ", move);
                             dispatch(addMove(move));
-                            const audio = new Audio("/sounds/place-stone.mp3");
-                            audio.play();
+                            if(move.color == 0){
+                                const audio = new Audio("/sounds/remove-stone.mp3");
+                                audio.play();
+                            }else{ 
+                                const audio = new Audio("/sounds/place-stone.mp3");
+                                audio.play();
+                            }
                         }
                         
                         // dispatch(setGameState(gameState));
