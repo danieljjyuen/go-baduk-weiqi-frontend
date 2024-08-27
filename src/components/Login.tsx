@@ -32,20 +32,31 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div>
-            <input 
-                type="text"
-                placeholder="username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-            />
-            <input 
-                type="password"
-                placeholder="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-            />
-            <button onClick={handleLogin}>log in</button>
+        <div className="flex justify-center items-center h-screen bg-center bg-cover bg-[url('/images/form-background.jpg')]">
+            <form onSubmit={handleLogin} className="bg-gray-200 p-2 border border-2 border-black rounded">
+
+                <div className="p-1 m-1 w-full">
+                    username: <input 
+                        type="text"
+                        placeholder="username"
+                        value={username}
+                        onChange={(event) => setUsername(event.target.value)}
+                    />
+                </div>
+                <div className="p-1 m-1 w-full">
+                    password: <input 
+                        type="password"
+                        placeholder="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                    />
+                </div>
+                <div className="flex justify-center">
+                    <button className="rounded border border-2 border-black p-1 m-1 ">log in</button>
+                </div>
+
+            </form>
+            
         </div>
     );
 };

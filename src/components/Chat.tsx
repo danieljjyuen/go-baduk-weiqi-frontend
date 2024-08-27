@@ -14,6 +14,9 @@ const Chat: React.FC = () => {
     console.log(roomId);
 
     const handleSendMessage = () => {
+        if(message == ""){
+            return;
+        }
         const chatMessage = {
             roomId,
             playerId,
@@ -40,7 +43,7 @@ const Chat: React.FC = () => {
     // );
 
     return (
-        <div className="border bg-gray-200 p-2 m-1 mr-5">
+        <div className="border bg-gray-200 p-1 m-1 mr-5">
             <div className="h-[350px] w-[300px] overflow-y-auto bg-white m-2">
                 {chatMessages.map((msg:any, index:any) => (
                     <div key={index}>
@@ -48,14 +51,14 @@ const Chat: React.FC = () => {
                     </div>
                 ))}
             </div>
-            <div className="border overflow-y-auto flex justify-between w-[300px] p-2">
+            <div className="border overflow-y-auto flex justify-between w-[300px] p-1">
                 <textarea
-                    className="w-full p-2 border rounded"
+                    className="w-full h-24 p-1 border rounded resize-none"
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
                     placeholder="Type your message..."
                 />
-                <button className="ml-2 p-2 border rounded" onClick={handleSendMessage}>Send</button>
+                <button className="ml-2 p-1 border-2 border-black rounded" onClick={handleSendMessage}>Send</button>
             </div>
         </div>
     );

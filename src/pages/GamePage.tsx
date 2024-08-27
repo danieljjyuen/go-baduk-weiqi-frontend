@@ -96,7 +96,7 @@ const GamePage: React.FC = () => {
     if (loading || error) return <div>waiting for player to join</div>;
     
     return (
-        <div className="flex p-1 m-1">
+        <div className="flex p-1 m-1 bg-[url('/images/background.jpg')]">
             <div className="flex-1 flex items-center justify-center">
                 <GameBoard />
             </div>
