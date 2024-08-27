@@ -6,13 +6,13 @@ import Logout from "./Logout";
 const NavBar: React.FC = () => {
     const username = useSelector((state: any) => state.player.username);
     return (
-        <div>
+        <div className="bg-blue-900 flex flex-row">
             {username == "" ? (
             <>
-                <Link to="/register">Register</Link>
-                <Link to="/login">Log In</Link>
+                <Link className="bg-gray-200 p-1" to="/register">Register</Link>
+                <Link className="bg-gray-200 p-1" to="/login">Log In</Link>
             </>):
-            (<Link to="/"><Logout/></Link>)
+            (<Link className="bg-gray-200 p-1" to="/"><Logout/></Link>)
             }
         </div>
     )

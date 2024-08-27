@@ -45,7 +45,8 @@ const RoomLine: React.FC<RoomLineProps> = ({roomId, roomOwnerUsername, roomName}
     
     return(
         <div key={roomId}>
-            <button onClick={handleJoinRoom}>join</button> {roomName} - Owner: {roomOwnerUsername}
+            <button className="bg-gray-100 border border-2 border-black rounded p-1 m-1" 
+                    onClick={handleJoinRoom}>join</button> {roomName} - Owner: {roomOwnerUsername}
         </div>
     )
 }

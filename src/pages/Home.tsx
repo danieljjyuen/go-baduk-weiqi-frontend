@@ -28,24 +28,27 @@ const Home: React.FC = () => {
     const rooms = data?.getRooms || [];
 
     return (
-        <div>
+        <div className="flex flex-col bg-gray-200 h-screen">
             {playerId? (<CreateRoom ownerId={playerId}/>) : null}
-            <h1>Rooms</h1>
-            <ul>
-                {rooms && rooms.length > 0 ? (
-                    rooms.map((room:any) => (
-                        <RoomLine 
-                            key={room.id}
-                            roomOwnerUsername={room.owner.username}
-                            roomName={room.name}
-                            roomId={room.id}
-                        />
-                    ))
-                ) : (
-                    <p>no rooms</p>
-                )}
+            <div className="bg-gray-200">
+                <h1>Rooms</h1>
+                <ul>
+                    {rooms && rooms.length > 0 ? (
+                        rooms.map((room:any) => (
+                            <RoomLine 
+                                key={room.id}
+                                roomOwnerUsername={room.owner.username}
+                                roomName={room.name}
+                                roomId={room.id}
+                            />
+                        ))
+                    ) : (
+                        <p>no rooms</p>
+                    )}
 
-            </ul>
+                </ul>
+            </div>
+            
         </div>
     );
 };

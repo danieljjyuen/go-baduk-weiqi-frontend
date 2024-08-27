@@ -64,6 +64,8 @@ const GamePage: React.FC = () => {
                         if(move){
                             console.log("inside subscribe move  ", move);
                             dispatch(addMove(move));
+                            const audio = new Audio("/sounds/place-stone.mp3");
+                            audio.play();
                         }
                         
                         // dispatch(setGameState(gameState));
@@ -96,7 +98,7 @@ const GamePage: React.FC = () => {
     if (loading || error) return <div>waiting for player to join</div>;
     
     return (
-        <div className="flex p-1 m-1 bg-[url('/images/background.jpg')]">
+        <div className="flex p-1 m-1 h-screen bg-cover bg-center bg-[url('/images/background.jpg')]">
             <div className="flex-1 flex items-center justify-center">
                 <GameBoard />
             </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMutation, useSubscription } from "@apollo/client";
-import { CREATE_ROOM, GAME_START_SUBSCRIPTION } from "../services/graphql";
+import { CREATE_ROOM } from "../services/graphql";
 import { useDispatch } from "react-redux"
 import { updateRoom } from "../store/playerSlice";
 import { useNavigate } from "react-router-dom";
@@ -49,14 +49,14 @@ const CreateRoom: React.FC<CreateRoomProps> = ({ ownerId }) => {
     };
 
     return (
-        <div>
+        <div className="bg-gray-200">
             <input 
                 type="text"
                 placeholder="room name"
                 value={roomName}
                 onChange={(event) => setRoomName(event.target.value)}
             />
-            <button onClick={handleCreateRoom}>Create Room</button>
+            <button className="p-1 m-1 border border-2 border-black" onClick={handleCreateRoom}>Create Room</button>
         </div>
     );    
 };

@@ -13,7 +13,8 @@ const Login: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
+    const handleLogin = async (event:any) => {
+        event.preventDefault();
         try {
             const { data } = await login({ variables: {username, password }});
             
