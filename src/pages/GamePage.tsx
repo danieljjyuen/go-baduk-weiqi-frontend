@@ -60,18 +60,24 @@ const GamePage: React.FC = () => {
                 // Subscribe for updates after successful connection
                 websocketService.subscribe(
                     `/topic/room/${roomId}/game/${gameId}`,
-                    (move: any) => {
-                        if(move){
-                            console.log("inside subscribe move  ", move);
-                            dispatch(addMove(move));
-                            if(move.color == 0){
-                                const audio = new Audio("/sounds/remove-stone.mp3");
-                                audio.play();
-                            }else{ 
-                                const audio = new Audio("/sounds/place-stone.mp3");
-                                audio.play();
-                            }
-                        }
+                    (updatedState: any) => {
+                        //console.log("LISTENING");
+                        //console.log("updated state " , updatedState);
+
+                        dispatch(setGameState(updatedState));
+
+
+                        // if(move){
+                        //     console.log("inside subscribe move  ", move);
+                        //     //dispatch(addMove(move));
+                        //     if(move.color == 0){
+                        //         const audio = new Audio("/sounds/remove-stone.mp3");
+                        //         audio.play();
+                        //     }else{ 
+                        //         const audio = new Audio("/sounds/place-stone.mp3");
+                        //         audio.play();
+                        //     }
+                        // }
                         
                         // dispatch(setGameState(gameState));
                     }
@@ -103,16 +109,24 @@ const GamePage: React.FC = () => {
     if (loading || error) return <div>waiting for player to join</div>;
     
     return (
-        <div className="flex p-1 m-1 h-screen bg-cover bg-center bg-[url('/images/background.jpg')]">
+        <div className="flex p-1 m-1 h-screen w-full bg-cover bg-center bg-[url('/images/background.jpg')]">
             <div className="flex-1 flex items-center justify-center">
                 <GameBoard />
             </div>
             
-            <div className="flex flex-col  items-center justify-center ml-4 mr-4">
+            <div className="flex flex-col items-center justify-between mt-3 mb-3 ml-4 mr-4">
                 <TurnPanel 
                     ownerUsername={data?.getGameStateWithRoomId?.blackPlayer.username} 
                     challengerUsername={data?.getGameStateWithRoomId?.whitePlayer.username}
                 />
+                <div className="flex flex-row justify-between">
+                    <button className="bg-gray-200 p-1 m-2 border border-2 border-black">
+                        Pass
+                    </button>
+                    <button className="bg-gray-200 p-1 m-2 border border-2 border-black">
+                        Resign
+                    </button>
+                </div>
                 <Chat />
             </div>
             

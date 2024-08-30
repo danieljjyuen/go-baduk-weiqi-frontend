@@ -37,7 +37,7 @@ const Login: React.FC = () => {
             <form onSubmit={handleLogin} className="bg-gray-200 p-2 border border-2 border-black rounded">
 
                 <div className="p-1 m-1 w-full">
-                    username: <input 
+                    Username: <input 
                         type="text"
                         placeholder="username"
                         value={username}
@@ -45,7 +45,7 @@ const Login: React.FC = () => {
                     />
                 </div>
                 <div className="p-1 m-1 w-full">
-                    password: <input 
+                    Password: <input 
                         type="password"
                         placeholder="password"
                         value={password}
@@ -53,7 +53,9 @@ const Login: React.FC = () => {
                     />
                 </div>
                 <div className="flex justify-center">
-                    <button className="rounded border border-2 border-black p-1 m-1 ">log in</button>
+                    <button className="rounded border border-2 border-black p-1 m-1 ">
+                        Log In
+                    </button>
                 </div>
 
             </form>

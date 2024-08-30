@@ -46,8 +46,11 @@ const gameSlice = createSlice({
             state.chatMessages.push(action.payload);
         },
         setGameState(state, action: PayloadAction<GameState>) {
-            state.board = action.payload.board;
+            //console.log("inside state", action.payload);
+            state.board = action.payload.boardState;
             state.isBlackTurn = action.payload.isBlackTurn;
+            const audio = new Audio("/sounds/place-stone.mp3");
+            audio.play();
         },
         setGameId(state, action: PayloadAction<string>) {
             state.gameId = action.payload;

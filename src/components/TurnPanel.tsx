@@ -11,7 +11,7 @@ const TurnPanel: React.FC<TurnPanelProps> = ({ownerUsername, challengerUsername}
     
     return (
         <div className="w-[400px] border p-4 bg-gray-200 flex flex-col items-center justify-center">
-           <div><span className={`${colorStyle} inline-block w-4 h-4 rounded-full border justify-center`}></span></div>
+           <div><span className={`${colorStyle} inline-block w-5 h-5 rounded-full border justify-center`}></span></div>
            
            <div className="w-full flex flex-row items-center justify-between">
                 <div className="flex items-center justify-center">

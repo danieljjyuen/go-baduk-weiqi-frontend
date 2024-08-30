@@ -9,10 +9,10 @@ const NavBar: React.FC = () => {
         <div className="bg-blue-900 flex flex-row">
             {username == "" ? (
             <>
-                <Link className="bg-gray-200 p-1" to="/register">Register</Link>
-                <Link className="bg-gray-200 p-1" to="/login">Log In</Link>
+                <Link className="bg-gray-200 p-1 border" to="/register">Register</Link>
+                <Link className="bg-gray-200 p-1 border" to="/login">Log In</Link>
             </>):
-            (<Link className="bg-gray-200 p-1" to="/"><Logout/></Link>)
+            (<Link className="bg-gray-200 p-1 border" to="/"><Logout/></Link>)
             }
         </div>
     )

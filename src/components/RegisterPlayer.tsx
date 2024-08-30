@@ -25,7 +25,7 @@ const RegisterPlayer: React.FC = () => {
         <div className="flex justify-center items-center h-screen bg-center bg-cover bg-[url('images/form-background.jpg')]">
             <form onSubmit={handleRegister} className="bg-gray-200 p-2 border border-2 border-black rounded">
                 <div className="p-1 m-1 w-full">
-                    username: <input
+                    Username: <input
                         type="text"
                         placeholder="username"
                         value={username}
@@ -33,7 +33,7 @@ const RegisterPlayer: React.FC = () => {
                     />
                 </div>
                 <div className="p-1 m-1 w-full">
-                    password: <input
+                    Password: <input
                         type="password"
                         placeholder="password"
                         value={password}
@@ -41,7 +41,9 @@ const RegisterPlayer: React.FC = () => {
                     />
                 </div>
                 <div className="flex justify-center">
-                    <button className="border border-2 border-black p-1 m-1 rounded">register</button>
+                    <button className="border border-2 border-black p-1 m-1 rounded">
+                        Register
+                    </button>
                 </div>
             </form>
         </div>
