@@ -15,17 +15,21 @@ interface ChatMessage {
 }
 
 interface GameState {
-    board: number[][];
+    boardState: number[][];
     chatMessages: ChatMessage[];
     isBlackTurn: boolean;
     gameId: string;
+    blackPlayerCaptures: number;
+    whitePlayerCaptures: number;
 };
 
 const initialState: GameState = {
-    board: Array.from(Array(19), () => new Array(19).fill(0)),
+    boardState: Array.from(Array(19), () => new Array(19).fill(0)),
     chatMessages: [],
     isBlackTurn: true,
-    gameId: ""
+    gameId: "",
+    blackPlayerCaptures: 0,
+    whitePlayerCaptures: 0
 };
 
 const gameSlice = createSlice({
@@ -33,11 +37,11 @@ const gameSlice = createSlice({
     initialState,
     reducers: {
         setBoard(state, action: PayloadAction<number[][]>) {
-            state.board = action.payload;
+            state.boardState = action.payload;
         },
         addMove(state, action: PayloadAction<Move>) {
             const color = action.payload.color;
-            state.board[action.payload.x][action.payload.y] = color;
+            state.boardState[action.payload.x][action.payload.y] = color;
             if(color == 1 || color==2) {
                 state.isBlackTurn = !state.isBlackTurn;
             }
@@ -47,8 +51,10 @@ const gameSlice = createSlice({
         },
         setGameState(state, action: PayloadAction<GameState>) {
             //console.log("inside state", action.payload);
-            state.board = action.payload.boardState;
+            state.boardState = action.payload.boardState;
             state.isBlackTurn = action.payload.isBlackTurn;
+            state.blackPlayerCaptures = action.payload.blackPlayerCaptures;
+            state.whitePlayerCaptures = action.payload.whitePlayerCaptures;
             const audio = new Audio("/sounds/place-stone.mp3");
             audio.play();
         },
