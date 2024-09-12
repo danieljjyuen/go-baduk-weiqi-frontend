@@ -109,14 +109,20 @@ const GamePage: React.FC = () => {
     
     const handlePass = (event:any) => {
         event.preventDefault();
-        const move = { gameId, x:0, y:0, color:-1 , playerId};
-        websocketService.sendMessage(`/app/room/${roomId}/game/${gameId}`, move);
+        const confirm = window.confirm("Pass the turn?");
+        if(confirm) {
+            const move = { gameId, x:0, y:0, color:-1 , playerId};
+            websocketService.sendMessage(`/app/room/${roomId}/game/${gameId}`, move);
+        }
     }
 
     const handleResign = (event:any) => {
         event.preventDefault();
-        const move = { gameId, x:0, y:0, color:-2 , playerId};
-        websocketService.sendMessage(`/app/room/${roomId}/game/${gameId}`, move);
+        const confirm = window.confirm("Resign the Game?");
+        if(confirm) {
+            const move = { gameId, x:0, y:0, color:-2 , playerId};
+            websocketService.sendMessage(`/app/room/${roomId}/game/${gameId}`, move);
+        }
     }
 
 

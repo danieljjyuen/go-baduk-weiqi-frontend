@@ -7,6 +7,7 @@ const NavBar: React.FC = () => {
     const username = useSelector((state: any) => state.player.username);
     return (
         <div className="bg-blue-900 flex flex-row">
+            <Link className="bg-gray-200 p-1 border" to="/">Home</Link>
             {username == "" ? (
             <>
                 <Link className="bg-gray-200 p-1 border" to="/register">Register</Link>
