@@ -16,6 +16,7 @@ const GamePage: React.FC = () => {
     const playerId = useSelector((state: any) => state.player.playerId);
     const { roomId } = useParams<{ roomId: string }>();
     //const { gameId } = useParams<{ gameId: string }>();
+    const gameId = useSelector((state: any) => state.game.gameId)
     console.log(roomId);
     const { loading, error, data, refetch } = useQuery(GETGAMESTATEWITHROOMID, {
         variables: {roomId},
@@ -106,6 +107,19 @@ const GamePage: React.FC = () => {
     }, [dispatch, loading, error, data, roomId]);
 
     
+    const handlePass = (event:any) => {
+        event.preventDefault();
+        const move = { gameId, x:0, y:0, color:-1 , playerId};
+        websocketService.sendMessage(`/app/room/${roomId}/game/${gameId}`, move);
+    }
+
+    const handleResign = (event:any) => {
+        event.preventDefault();
+        const move = { gameId, x:0, y:0, color:-2 , playerId};
+        websocketService.sendMessage(`/app/room/${roomId}/game/${gameId}`, move);
+    }
+
+
     if (loading || error) return <div>waiting for player to join</div>;
     
     return (
@@ -120,10 +134,10 @@ const GamePage: React.FC = () => {
                     challengerUsername={data?.getGameStateWithRoomId?.whitePlayer.username}
                 />
                 <div className="flex flex-row justify-between">
-                    <button className="bg-gray-200 p-1 m-2 border border-2 border-black">
+                    <button onClick={handlePass} className="bg-gray-200 p-1 m-2 border border-2 border-black">
                         Pass
                     </button>
-                    <button className="bg-gray-200 p-1 m-2 border border-2 border-black">
+                    <button  onClick={handleResign} className="bg-gray-200 p-1 m-2 border border-2 border-black">
                         Resign
                     </button>
                 </div>

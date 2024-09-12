@@ -5,7 +5,7 @@ import { websocketService } from "../services/websocket";
 
 const GameBoard: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const playerId = useSelector((state:any) => state.player.playerId);
     const board = useSelector((state: any) => state.game.boardState)||[];
     const isBlackTurn = useSelector((state:any) => state.game.isBlackTurn);
