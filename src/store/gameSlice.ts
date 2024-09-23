@@ -21,6 +21,10 @@ interface GameState {
     gameId: string;
     blackPlayerCaptures: number;
     whitePlayerCaptures: number;
+    gameOver: boolean;
+    resign: number;
+    whiteScore: number;
+    blackScore: number;
 };
 
 const initialState: GameState = {
@@ -29,7 +33,11 @@ const initialState: GameState = {
     isBlackTurn: true,
     gameId: "",
     blackPlayerCaptures: 0,
-    whitePlayerCaptures: 0
+    whitePlayerCaptures: 0,
+    gameOver: false,
+    resign: 0,
+    whiteScore: 7.5,
+    blackScore: 0,
 };
 
 const gameSlice = createSlice({
@@ -55,6 +63,10 @@ const gameSlice = createSlice({
             state.isBlackTurn = action.payload.isBlackTurn;
             state.blackPlayerCaptures = action.payload.blackPlayerCaptures;
             state.whitePlayerCaptures = action.payload.whitePlayerCaptures;
+            state.gameOver = action.payload.gameOver;
+            state.resign = action.payload.resign;
+            state.blackScore = action.payload.blackScore;
+            state.whiteScore = action.payload.whiteScore;
             const audio = new Audio("/sounds/place-stone.mp3");
             audio.play();
         },

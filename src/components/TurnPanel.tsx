@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useSelector } from "react-redux"
 
 interface TurnPanelProps {
@@ -10,6 +10,16 @@ const TurnPanel: React.FC<TurnPanelProps> = ({ownerUsername, challengerUsername}
     const colorStyle = isBlackTurn ? "bg-black" : "bg-white";
     const blackPlayerCaptures = useSelector((state: any) => state.game.blackPlayerCaptures);
     const whitePlayerCaptures = useSelector((state:any) => state.game.whitePlayerCaptures);
+    const gameOver = useSelector((state:any) =>  state.game.gameOver);
+    const resign = useSelector((state:any) => state.game.resign);
+    const blackScore = useSelector((state:any) => state.game.blackScore);
+    const whiteScore = useSelector((state:any) => state.game.whiteScore);
+
+        console.log(gameOver);
+        console.log(resign);
+        console.log(whiteScore);
+        console.log(blackScore);
+
 
     return (
         <div className="w-[400px] border p-4 bg-gray-200 flex flex-col items-center justify-center">
@@ -29,6 +39,26 @@ const TurnPanel: React.FC<TurnPanelProps> = ({ownerUsername, challengerUsername}
                     <span> {challengerUsername}</span>
                 </div>
            </div>
+
+           {gameOver ? (
+            resign != 0 ? 
+            (<div>{resign == 1? "Black" : "White"} has resigned</div>)
+            :
+           (<div className="w-full flex flex-row items-center justify-between">
+                <div className="flex items-center justify-center">
+                    <span className="inline-block w-4 h-4 rounded-full bg-black border mr-2"> </span>
+                    <span> {blackScore} </span> 
+                </div>
+                <div>
+                    {blackScore > whiteScore ? "Black Wins" : "White Wins"}
+                </div>
+                <div className="flex items-center justify-center">
+                    <span className="inline-block w-4 h-4 rounded-full bg-white border mr-2"> </span>
+                    <span> {whiteScore}</span>
+                </div>
+            </div>)
+           )
+           : null}
         </div>
     )
 }

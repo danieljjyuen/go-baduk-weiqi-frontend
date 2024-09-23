@@ -63,8 +63,8 @@ const GamePage: React.FC = () => {
                     `/topic/room/${roomId}/game/${gameId}`,
                     (updatedState: any) => {
                         //console.log("LISTENING");
-                        //console.log("updated state " , updatedState);
-
+                        console.log("updated state " , updatedState);
+                        
                         dispatch(setGameState(updatedState));
 
 
