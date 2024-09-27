@@ -7,6 +7,7 @@ const Logout: React.FC = () => {
 
     const handleLogout = () => {
         dispatch(resetPlayer());
+        localStorage.removeItem("player");
     };
 
     return (

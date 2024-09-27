@@ -25,7 +25,13 @@ const Login: React.FC = () => {
             dispatch(setOnlineStatus(true));
             
             console.log("logging in", data);
-            
+
+            localStorage.setItem("player", JSON.stringify({
+                playerId: data.login.id,
+                username: data.login.username,
+                online: true
+            }))
+
             navigate("/");
         } catch (error) {
             console.error("login error: ", error);
