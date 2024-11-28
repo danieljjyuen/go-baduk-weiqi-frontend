@@ -83,3 +83,13 @@ export const CREATE_PLAYER = gql`
         }
     }
 `;
+
+export const GET_ONLINE_PLAYERS = gql`
+    query getOnlinePlayers {
+        getOnlinePlayers {
+            id
+            username
+            online
+        }
+    }
+`;
