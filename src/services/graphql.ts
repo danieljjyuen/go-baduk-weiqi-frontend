@@ -15,6 +15,16 @@ export const LOGIN = gql`
     }
 `;
 
+export const LOGOUT = gql`
+    mutation Logout($username: String!) {
+        logout(username: $username) {
+            id
+            username
+            online
+        }
+    }
+`
+
 export const CREATE_ROOM = gql`
     mutation CreateRoom($name: String!, $ownerId: ID!) {
         createRoom(name: $name, ownerId: $ownerId) {
